@@ -12,10 +12,12 @@ export class DataService {
 
   selectedCharacter = ''
 
-  BASE_URL = 'https://rickandmortyapi.com/api/character'
+  apiPage = 1
+
+  BASE_URL = 'https://rickandmortyapi.com/api/character?page='
 
   getCharacters(){
-    return this.http.get<Character>(this.BASE_URL).pipe(
+    return this.http.get<Character>(this.BASE_URL + this.apiPage).pipe(
       tap(characterObj => console.log('PICKLE', characterObj)),
       map((characterObj:any)=> characterObj.results),
       tap(characterResult => console.log('RICK', characterResult))
