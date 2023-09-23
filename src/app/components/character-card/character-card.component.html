@@ -4,9 +4,15 @@
         <mat-card-subtitle></mat-card-subtitle>
         <mat-card-title>{{characters.name}}</mat-card-title>
       </mat-card-header>
-      <mat-card-content>
-        Current status: {{characters.status}}
-        Species: {{characters.species}}
+      <mat-card-content class="card-content">
+        <div>
+            Current status: {{characters.status}}
+
+        </div>
+        <div>
+            Species: {{characters.species}}
+
+        </div>
         <mat-divider></mat-divider>
         <img src="{{characters.image}}" alt="rick-sanchez">
       </mat-card-content>
