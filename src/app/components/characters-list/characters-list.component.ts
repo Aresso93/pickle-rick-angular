@@ -12,6 +12,7 @@ export class CharactersListComponent implements OnInit {
   characters: Character[] = []
 
   constructor(public data: DataService){}
+  
   ngOnInit(): void {
     this.data.getCharacters().subscribe(characterData => {
       this.characters = characterData
