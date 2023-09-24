@@ -14,9 +14,24 @@ export class CharactersListComponent implements OnInit {
   constructor(public data: DataService){}
   
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  private loadData() {
     this.data.getCharacters().subscribe(characterData => {
-      this.characters = characterData
-    })
+      this.characters = characterData;
+      console.log('Dati caricati:', this.characters);
+    });
+  }
+
+  nextPage() {
+    this.data.nextPage();
+    this.loadData();
+  }
+  
+  prevPage() {
+    this.data.prevPage();
+    this.loadData();
   }
 
 }

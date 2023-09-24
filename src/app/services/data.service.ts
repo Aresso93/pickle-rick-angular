@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, tap } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { Character } from '../model/character';
 
 @Injectable({
@@ -8,18 +8,23 @@ import { Character } from '../model/character';
 })
 export class DataService {
 
-  constructor(private http: HttpClient) { }
+  constructor(public http: HttpClient) { }
 
   selectedCharacter = ''
 
-  apiPage = 1
+  private apiPage = 1
 
   BASE_URL = 'https://rickandmortyapi.com/api/character?page='
 
+  getCharacters(): Observable<Character[]> {
+    return this.http.get<Character[]>(this.BASE_URL + this.apiPage).pipe(
+      map((response: any) => response.results)
+    );
+  }
   nextPage(){
     this.apiPage +=1
     console.log(this.apiPage);
-    
+    this.getCharacters().subscribe();
     
   }
 
@@ -29,16 +34,10 @@ export class DataService {
       this.apiPage =1;
     }
     console.log(this.apiPage);
-    
+    this.getCharacters().subscribe();
   }
 
-  getCharacters(){
-    return this.http.get<Character>(this.BASE_URL + this.apiPage).pipe(
-      tap(characterObj => console.log('PICKLE', characterObj)),
-      map((characterObj:any)=> characterObj.results),
-      tap(characterResult => console.log('RICK', characterResult))
-      )
-  }
+
 
   getCharactersDetails(){
 
