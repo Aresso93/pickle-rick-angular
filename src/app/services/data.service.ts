@@ -12,7 +12,7 @@ export class DataService {
 
   selectedCharacter = ''
 
-  private apiPage = 1
+  apiPage = 1
 
   BASE_URL = 'https://rickandmortyapi.com/api/character?page='
 

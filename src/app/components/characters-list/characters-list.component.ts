@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Character } from 'src/app/model/character';
 import { DataService } from 'src/app/services/data.service';
 
@@ -11,10 +12,20 @@ export class CharactersListComponent implements OnInit {
 
   characters: Character[] = []
 
-  constructor(public data: DataService){}
+  constructor(public data: DataService, private route: ActivatedRoute, private router: Router){}
   
   ngOnInit(): void {
-    this.loadData();
+    this.route.queryParams.subscribe(params =>{
+      const page = +params['page'];
+      if(!isNaN(page)){
+        this.data.apiPage = page;
+       
+      } else {
+        this.data.apiPage = 1;
+      }
+      this.loadData();
+    })
+   
   }
 
   private loadData() {
@@ -26,12 +37,18 @@ export class CharactersListComponent implements OnInit {
 
   nextPage() {
     this.data.nextPage();
+    this.updateRoute();
     this.loadData();
   }
   
   prevPage() {
     this.data.prevPage();
+    this.updateRoute();
     this.loadData();
+  }
+
+  private updateRoute(){
+    this.router.navigate([], { relativeTo: this.route, queryParams: { page: this.data.apiPage } });
   }
 
 }
